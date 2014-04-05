@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class list_creator extends JPanel implements ListSelectionListener{
+public class ListCreator extends JPanel implements ListSelectionListener{
 	
 	/**
 	 * 
@@ -15,10 +15,14 @@ public class list_creator extends JPanel implements ListSelectionListener{
 	public static JList node_list;
 	public static DefaultListModel list_manager;
 	
-	public list_creator() {		
+	public ListCreator() {		
+		
+		setLayout(new BorderLayout());
+		
 		list_manager = new DefaultListModel();
 		list_manager.addElement("Node 1");
 		list_manager.addElement("Node 2");
+		list_manager.addElement("This is a humongous element");
 		node_list = new JList(list_manager);
 		
         node_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -27,8 +31,20 @@ public class list_creator extends JPanel implements ListSelectionListener{
         node_list.setVisibleRowCount(5);
         JScrollPane listScrollPane = new JScrollPane(node_list);
         
-        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS)); 
+        //Create a panel that uses BoxLayout.
+        JPanel buttonPane = new JPanel();
+        buttonPane.setLayout(new BoxLayout(buttonPane,
+                                           BoxLayout.LINE_AXIS));
+        buttonPane.add(new Button("Create Leaf"));
+        buttonPane.add(Box.createHorizontalStrut(5));
+        buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
+        buttonPane.add(Box.createHorizontalStrut(5));
+        //buttonPane.add(employeeName);
+        buttonPane.add(new Button("Remove Leaf"));
+        buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        
         add(listScrollPane, BorderLayout.CENTER);
+        add(buttonPane, BorderLayout.SOUTH);
 		
 		list_manager.addElement("Node 3");
 		
@@ -44,6 +60,7 @@ public class list_creator extends JPanel implements ListSelectionListener{
 	            } else {
 	         //Selection, enable the fire button.
 	             //fireButton.setEnabled(true);
+	            	System.out.println("Selected");
 	         }
 	     }
 	 }
