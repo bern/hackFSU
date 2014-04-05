@@ -2,4 +2,4 @@ Hello there! I'm just testing Git. You should change this file and try a commit 
 
 Clay, delete this
 
-poop on my poop
+stop
