@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class node_creator extends JPanel {
+public class NodeCreator extends JPanel {
 	
 	public static JLabel node_name_label;
 	public static JLabel node_name;
@@ -13,7 +13,7 @@ public class node_creator extends JPanel {
 	public static JLabel node_pred_label;
 	public static ArrayList<JLabel> node_pred;
 	
-	public node_creator() {
+	public NodeCreator() {
 		setLayout(new GridLayout(6,1));
 		
 		node_name_label = new JLabel("Name: ");
