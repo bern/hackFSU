@@ -87,6 +87,10 @@ public class KnowledgeNode {
 		dependencies.put(node.getId(), node);
 	}
 	
+	/**
+	 * Remove the given node from my dependencies
+	 * @param node
+	 */
 	public void removeDependency(KnowledgeNode node){
 		dependencies.remove(node);
 	}
