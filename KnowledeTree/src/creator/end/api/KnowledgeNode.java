@@ -92,6 +92,7 @@ public class KnowledgeNode {
 	 * @param node
 	 */
 	public void removeDependency(KnowledgeNode node){
+		//
 		dependencies.remove(node);
 	}
 	
