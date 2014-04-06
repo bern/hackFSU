@@ -20,6 +20,7 @@ public class ListCreator extends JPanel implements ListSelectionListener{
 	private static final long serialVersionUID = 1L;
 	public static JList node_list;
 	public static NodeCreator node_panel;
+	public static Button save_tree;
 	public static Button create_leaf;
 	public static Button remove_leaf;
 	public static Button add_dep;
@@ -35,6 +36,9 @@ public class ListCreator extends JPanel implements ListSelectionListener{
 		
 		this.node_panel = node_panel;
 		this.nodes = nodes;
+		
+		save_tree = new Button("Save Tree");
+		save_tree.addActionListener(new ListManager("tree"));
 		
 		list_manager = new DefaultListModel();
 		
@@ -73,6 +77,10 @@ public class ListCreator extends JPanel implements ListSelectionListener{
         buttonPane.add(remove_leaf);
         buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         
+        JPanel savePanel = new JPanel();
+        savePanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        savePanel.add(save_tree);
+        add(savePanel, BorderLayout.NORTH);
         add(listScrollPane, BorderLayout.CENTER);
         add(buttonPane, BorderLayout.SOUTH);
         
@@ -124,6 +132,9 @@ public class ListCreator extends JPanel implements ListSelectionListener{
 					setChildren = false;
 					add_dep.setLabel("Add Children");
 				}	
+			}
+			else if(btnName.equals("tree")) {
+				//
 			}
 		}
 	}
