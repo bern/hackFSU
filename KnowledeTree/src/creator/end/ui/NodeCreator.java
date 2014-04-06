@@ -140,8 +140,9 @@ public class NodeCreator extends JPanel {
 		c.ipadx = 600;
 		c.insets = new Insets(0,0,0,0);
 		c.fill = GridBagConstraints.HORIZONTAL;
-		add(pred_list,c);
-		//add(node_pred_panel,c);
+		node_pred_panel.add(pred_list);
+		//node_pred_panel.add(pred_desc);
+		add(node_pred_panel,c);
 		//
 		buttonPane.setBackground(MainFrame.COLOR);
 		c.ipadx = 50;
