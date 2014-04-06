@@ -121,7 +121,7 @@ public class NodeCreator extends JPanel {
 		c.gridy = 3;
 		add(node_pred_label,c);
 		
-		node_pred_panel = new JPanel();
+		node_pred_panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		//node_pred_panel.setLayout(new BoxLayout(node_pred_panel, BoxLayout.X_AXIS));
 		//node_pred_panel.setPreferredSize(new Dimension(200, 200));
 		
