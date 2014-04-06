@@ -55,6 +55,12 @@ public class KnowledgeNodeBeanPicker {
 			allNodes.add(getKnowledgeNodeAsLeaf(id));
 		}
 		
+		//Actually, this is inefficient, but we'll
+		//just load everything in right away...
+		for(KnowledgeNode node : allNodes){
+			this.populateNode(node);
+		}
+		
 		//fun stuff...
 		return allNodes;
 	}
@@ -197,4 +203,12 @@ public class KnowledgeNodeBeanPicker {
 		this.dataDirectory = dataDirectory;
 	}
 	
+	///////////////////////////////////////////////////
+	//Write out the xml for the knowledge nodes      //
+	///////////////////////////////////////////////////
+	
+	public void writeKnowledgeNodesToDatabase(List<KnowledgeNode> allKnowledgeNodes){
+		Set<KnowledgeNode> uniqueKns = new HashSet<KnowledgeNode>(allKnowledgeNodes);
+		
+	}
 }
