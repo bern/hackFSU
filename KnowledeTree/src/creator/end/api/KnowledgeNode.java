@@ -118,6 +118,14 @@ public class KnowledgeNode {
 	}
 	
 	/**
+	 * Eliminates all dependencies and children.
+	 */
+	public void removeAllDependencies(){
+		dependencies = new HashMap<Integer,KnowledgeNode>();
+		//dependencyDescription = new HashMap<Integer,String>();
+	}
+	
+	/**
 	 * Adds a mouse over description for the node
 	 * @param node
 	 * @param description
