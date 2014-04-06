@@ -20,18 +20,19 @@ public class MainFrame extends JFrame {
 	public static List<KnowledgeNode> node_list;
 	public static MainFrame Creator_UI;
 	public static KnowledgeNodeBeanPicker picker;
+	public static String directory;
 	
 	public static void main(String[] args) {
 			KnowledgeNode testNode = ExampleKnowledgeNode.generateNode();
 		
-			String directory = getPath();
+			directory = getPath();
 			System.out.println(directory);
 			picker = new KnowledgeNodeBeanPicker();
 			picker.setDataDirectory(directory);
 			
 			node_list = picker.getAllKnowledgeNodes();
 			
-			Creator_UI = new MainFrame("Test UI");
+			Creator_UI = new MainFrame("TreeTorials Creation Toolbox");
 			Creator_UI.setSize(1024,768);
 			Creator_UI.setResizable(false);
 			Creator_UI.setVisible(true);
@@ -69,7 +70,7 @@ public class MainFrame extends JFrame {
 		list_panel = new ListCreator(node_list, node_panel);
 		
 		Border a = BorderFactory.createEmptyBorder(10, 30, 10, 30);
-		Border a2 = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+		Border a2 = BorderFactory.createEmptyBorder(0, 0, 0, 0);
 		Border b = BorderFactory.createLineBorder(Color.BLACK, 2);
 		Border combined = BorderFactory.createCompoundBorder(b, a);
 		Border combined2 = BorderFactory.createCompoundBorder(b, a2);
@@ -77,7 +78,7 @@ public class MainFrame extends JFrame {
 		list_panel.setBorder(combined2);
 		node_panel.setBorder(combined);
 		
-		list_panel.setMaximumSize(new Dimension(300,600));
+		list_panel.setMaximumSize(new Dimension(250,1000));
 		
 		main_panel.add(list_panel);//, BorderLayout.WEST);
 		main_panel.add(node_panel);//, BorderLayout.CENTER);

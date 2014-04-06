@@ -153,7 +153,16 @@ public class KnowledgeNodeBeanPicker {
 		KnowledgeNode dependencyKnowledgeNode = new KnowledgeNode();
 		String sId = ((Element)dependencyNode).getElementsByTagName(ELNAME_DEPENDENCYID).item(0).getTextContent();
 		int id = Integer.parseInt(sId);
-		String description = ((Element)dependencyNode).getElementsByTagName(ELNAME_DESCRIPTION).item(0).getTextContent();
+		String description = "";
+		
+		NodeList descriptionsNodes = ((Element)dependencyNode).getElementsByTagName(ELNAME_DESCRIPTION);
+		if(descriptionsNodes!=null){
+			Node descriptionNode = descriptionsNodes.item(0);
+			if(descriptionNode!=null){
+				description = descriptionNode.getTextContent();
+			}
+		}
+
 	
 		dependencyKnowledgeNode.setId(id);
 		knowledgeNode.addDescription(dependencyKnowledgeNode, description);
@@ -216,7 +225,9 @@ public class KnowledgeNodeBeanPicker {
 	///////////////////////////////////////////////////
 	
 	public void writeKnowledgeNodesToDatabase(List<KnowledgeNode> allKnowledgeNodes){
+		this.initializeNodeIndex(false);
 		validateNodeIndexExists();
+		
 		//make sure we don't write anybody out twice.
 		Set<KnowledgeNode> uniqueKns = new HashSet<KnowledgeNode>(allKnowledgeNodes);
 		

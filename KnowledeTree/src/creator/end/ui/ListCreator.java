@@ -14,6 +14,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import creator.end.api.ApiUtils;
 import creator.end.api.KnowledgeNode;
+import creator.end.parsing.KnowledgeNodeBeanPicker;
 
 public class ListCreator extends JPanel implements ListSelectionListener{
 	//
@@ -134,7 +135,9 @@ public class ListCreator extends JPanel implements ListSelectionListener{
 				}	
 			}
 			else if(btnName.equals("tree")) {
-				//
+				KnowledgeNodeBeanPicker picker = new KnowledgeNodeBeanPicker();
+				picker.setDataDirectory(MainFrame.directory);
+				picker.writeKnowledgeNodesToDatabase(nodes);
 			}
 		}
 	}
