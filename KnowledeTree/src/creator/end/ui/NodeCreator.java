@@ -29,6 +29,7 @@ public class NodeCreator extends JPanel {
 	public static Button save_leaf;
 	public static Button generate_xml;
 	public static GridBagConstraints c;
+	public static JComboBox<String> pred_list;
 	
 	public NodeCreator() {
 		
@@ -90,12 +91,14 @@ public class NodeCreator extends JPanel {
 		
 		//c.gridwidth = 200;
 		//c.gridheight = 100;
-		c.ipady = 350;
-		c.ipadx = 450;
+		c.ipady = 450;
+		c.ipadx = 575;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
 		add(scrollPane,c);
+		
+		pred_list = new JComboBox<String>();
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(13,0,0,0);
@@ -105,6 +108,8 @@ public class NodeCreator extends JPanel {
 		add(node_pred_label,c);
 		
 		node_pred_panel = new JPanel();
+		//node_pred_panel.setLayout(new BoxLayout(node_pred_panel, BoxLayout.X_AXIS));
+		//node_pred_panel.setPreferredSize(new Dimension(200, 200));
 		
 		node_pred = new ArrayList<JLabel>();
 		
@@ -118,14 +123,16 @@ public class NodeCreator extends JPanel {
 		
 		c.gridx = 0;
 		c.gridy = 4;
-		c.ipadx = 500;
+		c.ipadx = 600;
 		c.insets = new Insets(0,0,0,0);
 		c.fill = GridBagConstraints.HORIZONTAL;
-		add(node_pred_panel,c);
+		add(pred_list,c);
+		//add(node_pred_panel,c);
 		
 		c.ipadx = 50;
 		c.gridx = 0;
 		c.gridy = 5;
+		c.insets = new Insets(10,0,0,0);
 		add(buttonPane,c);
 	}
 	
@@ -169,13 +176,14 @@ public class NodeCreator extends JPanel {
 		int length = node.getDependencies().size();
 		
 		node_pred.clear();
+		pred_list.removeAllItems();
 		node_pred_panel.removeAll();
 		
 		//try{Thread.sleep(1000);}catch(Exception e){}
 		
 		boolean goodToAdd = true;
 		
-		for(int i = 0; i < length; i++) {
+		/*for(int i = 0; i < length; i++) {
 			goodToAdd = true;
 			for(int j = 0; j < node_pred.size(); j++) {
 				if(node_pred.get(j).getText().equals(node.getDependencies().get(i).getName())) {
@@ -183,16 +191,32 @@ public class NodeCreator extends JPanel {
 				}
 			}
 			if(goodToAdd) {
-				node_pred.add(new JLabel(node.getDependencies().get(i).getName()));
+				//node_pred.add(new JLabel(node.getDependencies().get(i).getName()));
+				pred_list.addItem((node.getDependencies().get(i).getName()));
+			}
+		}*/
+		
+		for(int i = 0; i < length; i++) {
+			goodToAdd = true;
+			for(int j = 0; j < pred_list.getItemCount(); j++) {
+				if(pred_list.getItemAt(j).equals(node.getDependencies().get(i).getName())) {
+					goodToAdd = false;
+				}
+			}
+			if(goodToAdd) {
+				//node_pred.add(new JLabel(node.getDependencies().get(i).getName()));
+				pred_list.addItem((node.getDependencies().get(i).getName()));
 			}
 		}
+		
+		node_pred_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		for(int i = node_pred.size()-1; i >= 0; i--) {
 			Border a = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 			Border b = BorderFactory.createLineBorder(Color.BLACK, 1);
 			Border combined = BorderFactory.createCompoundBorder(b, a);
-			node_pred.get(i).setBorder(combined);
-			node_pred_panel.add(node_pred.get(i));
+			//node_pred.get(i).setBorder(combined);
+			//node_pred_panel.add(node_pred.get(i));
 		}
 		
 		c = new GridBagConstraints();
@@ -200,6 +224,7 @@ public class NodeCreator extends JPanel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 4;
+		node_pred_panel.add(pred_list);
 		node_pred_panel.updateUI();
 		this.add(node_pred_panel,c);
 	}
