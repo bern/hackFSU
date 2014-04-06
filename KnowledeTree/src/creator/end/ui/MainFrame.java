@@ -21,6 +21,7 @@ public class MainFrame extends JFrame {
 	public static MainFrame Creator_UI;
 	public static KnowledgeNodeBeanPicker picker;
 	public static String directory;
+	public static final Color COLOR = new Color(214, 250, 255);
 	
 	public static void main(String[] args) {
 			KnowledgeNode testNode = ExampleKnowledgeNode.generateNode();
@@ -34,6 +35,7 @@ public class MainFrame extends JFrame {
 			
 			Creator_UI = new MainFrame("TreeTorials Creation Toolbox");
 			Creator_UI.setSize(1024,768);
+			Creator_UI.getContentPane().setBackground(COLOR);
 			Creator_UI.setResizable(false);
 			Creator_UI.setVisible(true);
 			Creator_UI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +70,8 @@ public class MainFrame extends JFrame {
 		
 		node_panel = new NodeCreator();
 		list_panel = new ListCreator(node_list, node_panel);
-		
+		node_panel.setBackground(COLOR);
+		list_panel.setBackground(COLOR);
 		Border a = BorderFactory.createEmptyBorder(10, 30, 10, 30);
 		Border a2 = BorderFactory.createEmptyBorder(0, 0, 0, 0);
 		Border b = BorderFactory.createLineBorder(Color.BLACK, 2);

@@ -7,8 +7,12 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 public class NodeCreator extends JPanel {
 	
 	public static JLabel node_name_label;
+	public static JPanel title_panel;
 	public static JTextField node_name;
 	public static JLabel node_body_label;
 	public static JTextArea node_body;
@@ -28,7 +33,9 @@ public class NodeCreator extends JPanel {
 	public static JPanel node_pred_panel;
 	public static Button save_leaf;
 	public static Button generate_xml;
+	public static JPanel title_panel_ina_panel;
 	public static GridBagConstraints c;
+	public static BufferedImage treeTorialLogo;
 	public static JComboBox<String> pred_list;
 	
 	public NodeCreator() {
@@ -36,11 +43,25 @@ public class NodeCreator extends JPanel {
 		setLayout(new GridBagLayout());
 		c = new GridBagConstraints(); 
 		
-		JPanel name_panel = new JPanel();
+		title_panel = new JPanel();
+		title_panel.setLayout(new GridLayout(1,2));
+		
+		try {
+			treeTorialLogo = ImageIO.read(new File("Images/treetoriallogo.png"));
+		} catch (Exception e) {}
+		
+		JPanel name_panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		node_name_label = new JLabel("Name: ");
 		node_name = new JTextField("");
 		name_panel.add(node_name_label);
 		name_panel.add(node_name);
+		title_panel.add(name_panel);
+		title_panel_ina_panel = new JPanel();
+		//JLabel x = new JLabel(" ");
+		//title_panel_ina_panel.add(x);
+		//title_panel.add(title_panel_ina_panel);
+		//title_panel_ina_panel.repaint();
+		add(title_panel);
 		
 		node_body_label = new JLabel("Body: ");
 		node_body = new JTextArea(500,500);
@@ -61,23 +82,16 @@ public class NodeCreator extends JPanel {
         buttonPane.add(generate_xml);
         //buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));*/
 		
-        JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new BoxLayout(buttonPane,
-                                           BoxLayout.LINE_AXIS));
+        JPanel buttonPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
         save_leaf = new Button("Save Leaf");
         save_leaf.addActionListener(new NodeManager("save"));
-        generate_xml = new Button("Generate XML");
-        generate_xml.addActionListener(new NodeManager("gen"));
+       // generate_xml = new Button("Generate XML");
+        //generate_xml.addActionListener(new NodeManager("gen"));
         buttonPane.add(save_leaf);
-        //buttonPane.add(Box.createHorizontalStrut(5));
-        buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
-        //buttonPane.add(Box.createHorizontalStrut(5));
-        //buttonPane.add(employeeName);
-        buttonPane.add(generate_xml);
         buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		
 		node_pred_label = new JLabel("Predecessors: ");
-		
+		name_panel.setBackground(MainFrame.COLOR);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
@@ -129,6 +143,7 @@ public class NodeCreator extends JPanel {
 		add(pred_list,c);
 		//add(node_pred_panel,c);
 		
+		buttonPane.setBackground(MainFrame.COLOR);
 		c.ipadx = 50;
 		c.gridx = 0;
 		c.gridy = 5;
@@ -178,6 +193,8 @@ public class NodeCreator extends JPanel {
 		node_pred.clear();
 		pred_list.removeAllItems();
 		node_pred_panel.removeAll();
+		
+		node_pred_panel.setBackground(MainFrame.COLOR);
 		
 		//try{Thread.sleep(1000);}catch(Exception e){}
 		

@@ -4,9 +4,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -23,12 +26,14 @@ public class ListCreator extends JPanel implements ListSelectionListener{
 	public static NodeCreator node_panel;
 	public static Button save_tree;
 	public static Button create_leaf;
+	public static BufferedImage treeTorialLogo;
 	public static Button remove_leaf;
 	public static Button add_dep;
 	public static DefaultListModel list_manager;
 	public static KnowledgeNode n;
 	public static List<KnowledgeNode> nodes;
 	public static int storeIndex;
+	public static JPanel savePanel;
 	public static boolean setChildren = false;
 	
 	public ListCreator(List<KnowledgeNode> nodes, NodeCreator node_panel) {		
@@ -78,10 +83,18 @@ public class ListCreator extends JPanel implements ListSelectionListener{
         buttonPane.add(remove_leaf);
         buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         
-        JPanel savePanel = new JPanel();
-        savePanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        savePanel.add(save_tree);
+		try {
+			treeTorialLogo = ImageIO.read(new File("Images/treetoriallogo.png"));
+		} catch (Exception e) {}
+        
+        savePanel = new JPanel(new BorderLayout());
+        savePanel.setBackground(MainFrame.COLOR);
+        buttonPane.setBackground(MainFrame.COLOR);
+        savePanel.setBorder(BorderFactory.createEmptyBorder(10,5,5,5));
+        savePanel.add(new JLabel(new ImageIcon("Images/treetoriallogo.png")), BorderLayout.CENTER);
+        savePanel.add(save_tree, BorderLayout.SOUTH);
         add(savePanel, BorderLayout.NORTH);
+        savePanel.repaint();
         add(listScrollPane, BorderLayout.CENTER);
         add(buttonPane, BorderLayout.SOUTH);
         
@@ -91,6 +104,14 @@ public class ListCreator extends JPanel implements ListSelectionListener{
         
 		setBackground(Color.WHITE);
 	}
+	
+    protected void paintComponent(Graphics g) {
+        //so this is a weird method, but basically this is how we get our images drawn to the screen
+        //we can move our images by modifying the x and y fields (p2y, borderx, etc.)
+        //since they're static, this is pretty easy :D
+        super.paintComponent(g);
+        g.drawImage(treeTorialLogo, 100, 100, savePanel);
+    }
 	
 	public class ListManager implements ActionListener {
 		
