@@ -13,9 +13,6 @@ import creator.end.api.KnowledgeNode;
 
 public class ListCreator extends JPanel implements ListSelectionListener{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	public static JList node_list;
 	public static NodeCreator node_panel;

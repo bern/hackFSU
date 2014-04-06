@@ -123,7 +123,7 @@ public class NodeCreator extends JPanel {
 		//System.out.println("what happened"+node.getName());
 		node_name.setText(node.getName());
 		node_body.setText(node.getBody());
-		
+		//
 		int length = node.getDependencies().size();
 		
 		remove(node_pred_panel);
