@@ -47,6 +47,8 @@ public class KnowledgeNode {
 	 */
 	boolean understood=true;
 	
+	boolean fullyPopulated = false;
+	
 	/**
 	 * Returns unigue ID of the Node
 	 */
@@ -189,5 +191,17 @@ public class KnowledgeNode {
 	public boolean isLeafNode(){
 		if(dependencies.isEmpty()) return true;
 		else return false;
+	}
+
+	public boolean isFullyPopulated() {
+		return fullyPopulated;
+	}
+
+	public void setFullyPopulated(boolean fullyPopulated) {
+		this.fullyPopulated = fullyPopulated;
+	}
+	
+	public int hashCode(){
+		return id;
 	}
 }

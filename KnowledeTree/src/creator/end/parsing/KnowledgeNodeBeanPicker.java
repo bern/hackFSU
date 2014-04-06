@@ -57,8 +57,9 @@ public class KnowledgeNodeBeanPicker {
 		
 		//Actually, this is inefficient, but we'll
 		//just load everything in right away...
-		for(KnowledgeNode node : allNodes){
-			this.populateNode(node);
+		int numberOfNodes = allNodes.size();
+		for(int i=0; i<numberOfNodes; i++){
+			this.populateNode(allNodes.get(i),allNodes);
 		}
 		
 		//fun stuff...
@@ -158,8 +159,9 @@ public class KnowledgeNodeBeanPicker {
 	 * and turns it into a fully populated directed graph.
 	 * @param node
 	 */
-	public void populateNode(KnowledgeNode node){
-		List<KnowledgeNode> allNodesList = this.getAllKnowledgeNodes();
+	public void populateNode(KnowledgeNode node,List<KnowledgeNode> allNodesList){
+		if(node.isFullyPopulated()){return;}
+		
 		Map<Integer,KnowledgeNode> idToCompleteKnowledgeNodes = createIdsToCompleteKnowledgeNodes(allNodesList);
 		
 		//get the dependencies of the knowledgeNode
@@ -167,10 +169,10 @@ public class KnowledgeNodeBeanPicker {
 		node.removeAllDependencies();
 		for(KnowledgeNode dependencyNode : dependencies){
 			KnowledgeNode completeKnowledgeNode = idToCompleteKnowledgeNodes.get(dependencyNode.getId());
-			populateNode(completeKnowledgeNode);
+			populateNode(completeKnowledgeNode,allNodesList);
 			node.addDependency(completeKnowledgeNode);
 		}
-		
+		node.setFullyPopulated(true);		
 	}
 
 	private Map<Integer, KnowledgeNode> createIdsToCompleteKnowledgeNodes(
