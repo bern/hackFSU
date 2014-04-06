@@ -1,17 +1,26 @@
 package creator.end.ui;
 import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
+
+import creator.end.api.KnowledgeNode;
+import creator.end.test.ExampleKnowledgeNode;
 
 public class MainFrame extends JFrame {
 	
 	public static JPanel main_panel;
 	public static ListCreator list_panel;
 	public static NodeCreator node_panel;
+	public static ArrayList<KnowledgeNode> node_list;
 	
 	public static void main(String[] args) {
+			KnowledgeNode testNode = ExampleKnowledgeNode.generateNode();
+			node_list = new ArrayList<KnowledgeNode>();
+			node_list.add(testNode);
+		
 			MainFrame Creator_UI = new MainFrame("Test UI");
 			Creator_UI.setSize(800,600);
 			Creator_UI.setResizable(false);
@@ -26,10 +35,8 @@ public class MainFrame extends JFrame {
 		main_panel.setLayout(new BoxLayout(main_panel, BoxLayout.X_AXIS));
 		//main_panel.add(Box.createRigidArea(new Dimension(150, 500)));
 		
-		list_panel = new ListCreator();
-		
-		//JLabel test1 = new JLabel ("test1");
 		node_panel = new NodeCreator();
+		list_panel = new ListCreator(node_list, node_panel);
 		
 		Border a = BorderFactory.createEmptyBorder(10, 30, 10, 30);
 		Border a2 = BorderFactory.createEmptyBorder(10, 10, 10, 10);
