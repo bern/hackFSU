@@ -1,6 +1,8 @@
 package creator.end.ui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 public class NodeCreator extends JPanel {
 	
 	public static JLabel node_name_label;
-	public static JLabel node_name;
+	public static JTextField node_name;
 	public static JLabel node_body_label;
 	public static JTextArea node_body;
 	public static JLabel node_pred_label;
@@ -29,7 +31,7 @@ public class NodeCreator extends JPanel {
 		
 		JPanel name_panel = new JPanel();
 		node_name_label = new JLabel("Name: ");
-		node_name = new JLabel("[No node selected]");
+		node_name = new JTextField("");
 		name_panel.add(node_name_label);
 		name_panel.add(node_name);
 		
@@ -56,7 +58,9 @@ public class NodeCreator extends JPanel {
         buttonPane.setLayout(new BoxLayout(buttonPane,
                                            BoxLayout.LINE_AXIS));
         save_leaf = new Button("Save Leaf");
+        save_leaf.addActionListener(new NodeManager("save"));
         generate_xml = new Button("Generate XML");
+        generate_xml.addActionListener(new NodeManager("gen"));
         buttonPane.add(save_leaf);
         //buttonPane.add(Box.createHorizontalStrut(5));
         buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
@@ -119,6 +123,34 @@ public class NodeCreator extends JPanel {
 		add(buttonPane,c);
 	}
 	
+	public class NodeManager implements ActionListener {
+		
+		public String btnName;
+		
+		public NodeManager(String n) {
+			btnName = n;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			if(btnName.equals("save")) {
+				ListCreator.nodes.get(ListCreator.node_list.getSelectedIndex()).setName(node_name.getText());
+				ListCreator.nodes.get(ListCreator.node_list.getSelectedIndex()).setBody(node_body.getText());
+				int length = ListCreator.nodes.size();
+				int index = ListCreator.node_list.getSelectedIndex();
+				
+				for(int i = index; i < length; i++) {
+					ListCreator.list_manager.remove(index);
+				}
+				
+				for(int i = index; i < length; i++) {
+					ListCreator.list_manager.addElement(ListCreator.nodes.get(i).getName());
+				}
+			}
+			else if(btnName.equals("gen")) {
+			}
+		}
+	}
+	
 	public void updateFields(KnowledgeNode node) {
 		//System.out.println("what happened"+node.getName());
 		node_name.setText(node.getName());
@@ -126,9 +158,10 @@ public class NodeCreator extends JPanel {
 		
 		int length = node.getDependencies().size();
 		
-		remove(node_pred_panel);
 		node_pred.clear();
-		node_pred_panel = new JPanel();
+		node_pred_panel.removeAll();
+		
+		//try{Thread.sleep(1000);}catch(Exception e){}
 		
 		boolean goodToAdd = true;
 		
@@ -141,7 +174,7 @@ public class NodeCreator extends JPanel {
 			}
 			if(goodToAdd) {
 				node_pred.add(new JLabel(node.getDependencies().get(i).getName()));
-				//System.out.println("Added dependency "+node.getDependencies().get(i).getName());
+				System.out.println("Added dependency "+node.getDependencies().get(i).getName());
 			}
 		}
 		
@@ -150,13 +183,15 @@ public class NodeCreator extends JPanel {
 		else
 			node_pred.add(node_pred.size()-1, new JLabel("Drag to add a leaf!"));
 		
+		System.out.println("\n"+node_pred.size()+"\n");
+		
 		for(int i = node_pred.size()-1; i >= 0; i--) {
 			Border a = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 			Border b = BorderFactory.createLineBorder(Color.BLACK, 1);
 			Border combined = BorderFactory.createCompoundBorder(b, a);
 			node_pred.get(i).setBorder(combined);
 			node_pred_panel.add(node_pred.get(i));
-			//System.out.println("added" + node_pred.get(i).getText());
+			System.out.println("added" + node_pred.get(i).getText());
 		}
 		
 		c = new GridBagConstraints();
@@ -164,6 +199,7 @@ public class NodeCreator extends JPanel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 4;
+		node_pred_panel.updateUI();
 		this.add(node_pred_panel,c);
 	}
 }
