@@ -30,7 +30,7 @@ public class MainFrame extends JFrame {
 	
 	public MainFrame(String s) {
 		super(s);
-		//
+		
 		main_panel = new JPanel();
 		main_panel.setLayout(new BoxLayout(main_panel, BoxLayout.X_AXIS));
 		//main_panel.add(Box.createRigidArea(new Dimension(150, 500)));
