@@ -13,7 +13,7 @@
 		</dependency>
 	</dependencies>
 	<body>
-		Dijkstras algorithm is a thing that does a thing with stuff. It's <em>really</em> cool.
+		Dijkstras algorithm  is a thing that does a thing with stuff. It's <em>really</em> cool.
 		Great! Now you know Dijkstras!
 	</body>
 </KnowledgeNode>
