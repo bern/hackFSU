@@ -1,12 +1,15 @@
 package creator.end.ui;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import creator.end.api.KnowledgeNode;
+import creator.end.parsing.KnowledgeNodeBeanPicker;
 import creator.end.test.ExampleKnowledgeNode;
 
 public class MainFrame extends JFrame {
@@ -14,19 +17,46 @@ public class MainFrame extends JFrame {
 	public static JPanel main_panel;
 	public static ListCreator list_panel;
 	public static NodeCreator node_panel;
-	public static ArrayList<KnowledgeNode> node_list;
+	public static List<KnowledgeNode> node_list;
+	public static MainFrame Creator_UI;
+	public static KnowledgeNodeBeanPicker picker;
 	
 	public static void main(String[] args) {
 			KnowledgeNode testNode = ExampleKnowledgeNode.generateNode();
-			node_list = new ArrayList<KnowledgeNode>();
-			node_list.add(testNode);
 		
-			MainFrame Creator_UI = new MainFrame("Test UI");
+			String directory = getPath();
+			System.out.println(directory);
+			picker = new KnowledgeNodeBeanPicker();
+			picker.setDataDirectory(directory);
+			
+			node_list = picker.getAllKnowledgeNodes();
+			
+			Creator_UI = new MainFrame("Test UI");
 			Creator_UI.setSize(1024,768);
 			Creator_UI.setResizable(false);
 			Creator_UI.setVisible(true);
 			Creator_UI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
+	public static String getPath() {
+	    //JFileChooser chooser = new JFileChooser();
+		JFileChooser chooser = new JFileChooser(); 
+	    chooser.setCurrentDirectory(new java.io.File("."));
+	    chooser.setDialogTitle("Select Working Directory");
+	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	    //
+	    // disable the "All files" option.
+	    //
+	    chooser.setAcceptAllFileFilterUsed(false);
+	    //    
+	    if (chooser.showOpenDialog(Creator_UI) == JFileChooser.APPROVE_OPTION) { 
+	    		return ""+ chooser.getSelectedFile();
+	      }
+	    else {
+	       return "";
+	      }
+	    
+	    }
 	
 	public MainFrame(String s) {
 		super(s);

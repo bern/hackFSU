@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -24,11 +25,11 @@ public class ListCreator extends JPanel implements ListSelectionListener{
 	public static Button add_dep;
 	public static DefaultListModel list_manager;
 	public static KnowledgeNode n;
-	public static ArrayList<KnowledgeNode> nodes;
+	public static List<KnowledgeNode> nodes;
 	public static int storeIndex;
 	public static boolean setChildren = false;
 	
-	public ListCreator(ArrayList<KnowledgeNode> nodes, NodeCreator node_panel) {		
+	public ListCreator(List<KnowledgeNode> nodes, NodeCreator node_panel) {		
 		
 		setLayout(new BorderLayout());
 		
@@ -138,8 +139,10 @@ public class ListCreator extends JPanel implements ListSelectionListener{
 	        @Override
 	        public void mouseReleased(MouseEvent e) {
             	String nodeName = nodes.get(node_list.getSelectedIndex()).getName();
-            	if(!setChildren)
+            	if(!setChildren) {
+            		//MainFrame.picker.populateNode(nodes.get(node_list.getSelectedIndex()));
             		node_panel.updateFields(nodes.get(node_list.getSelectedIndex()));
+            	}
             	else {
             		nodes.get(storeIndex).addDependency(nodes.get(node_list.getSelectedIndex()));
             		node_panel.updateFields(nodes.get(storeIndex));
