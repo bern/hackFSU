@@ -67,7 +67,7 @@ public class MainFrame extends JFrame {
 		main_panel = new JPanel();
 		main_panel.setLayout(new BoxLayout(main_panel, BoxLayout.X_AXIS));
 		//main_panel.add(Box.createRigidArea(new Dimension(150, 500)));
-		
+		//
 		node_panel = new NodeCreator();
 		list_panel = new ListCreator(node_list, node_panel);
 		node_panel.setBackground(COLOR);

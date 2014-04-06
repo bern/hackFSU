@@ -59,7 +59,7 @@ public class ListCreator extends JPanel implements ListSelectionListener{
         node_list.addListSelectionListener(this);
         node_list.setVisibleRowCount(5);
         JScrollPane listScrollPane = new JScrollPane(node_list);
-        
+        //
         node_list.addMouseListener(new MyMouseAdaptor());
         
         create_leaf = new Button("Create Leaf");
