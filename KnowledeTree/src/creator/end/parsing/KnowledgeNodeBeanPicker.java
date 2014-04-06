@@ -236,7 +236,6 @@ public class KnowledgeNodeBeanPicker {
 		nodeIndex.setURL(dataDirectory);
 		niBeanPicker.writeNodeIndex(nodeIndex);
 		
-		
 	}
 
 	/**
