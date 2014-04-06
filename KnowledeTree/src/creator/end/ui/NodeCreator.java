@@ -1,11 +1,17 @@
 package creator.end.ui;
 
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.text.JTextComponent;
 
 import creator.end.api.KnowledgeNode;
 
@@ -101,7 +107,6 @@ public class NodeCreator extends JPanel {
 		node_pred_panel = new JPanel();
 		
 		node_pred = new ArrayList<JLabel>();
-		node_pred.add(new JLabel("Drag to add a leaf!"));
 		
 		for(int i = 0; i < node_pred.size(); i++) {
 			Border a = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -112,7 +117,8 @@ public class NodeCreator extends JPanel {
 		}
 		
 		c.gridx = 0;
-		c.gridy = 4;	
+		c.gridy = 4;
+		c.ipadx = 500;
 		c.insets = new Insets(0,0,0,0);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		add(node_pred_panel,c);
@@ -145,6 +151,10 @@ public class NodeCreator extends JPanel {
 				for(int i = index; i < length; i++) {
 					ListCreator.list_manager.addElement(ListCreator.nodes.get(i).getName());
 				}
+				if(ListCreator.setChildren) {
+					ListCreator.setChildren = false;
+					ListCreator.add_dep.setLabel("Add Children");
+				}
 			}
 			else if(btnName.equals("gen")) {
 			}
@@ -174,16 +184,8 @@ public class NodeCreator extends JPanel {
 			}
 			if(goodToAdd) {
 				node_pred.add(new JLabel(node.getDependencies().get(i).getName()));
-				System.out.println("Added dependency "+node.getDependencies().get(i).getName());
 			}
 		}
-		
-		if(node_pred.size() == 0)
-			node_pred.add(new JLabel("Drag to add a leaf!"));
-		else
-			node_pred.add(node_pred.size()-1, new JLabel("Drag to add a leaf!"));
-		
-		System.out.println("\n"+node_pred.size()+"\n");
 		
 		for(int i = node_pred.size()-1; i >= 0; i--) {
 			Border a = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -191,7 +193,6 @@ public class NodeCreator extends JPanel {
 			Border combined = BorderFactory.createCompoundBorder(b, a);
 			node_pred.get(i).setBorder(combined);
 			node_pred_panel.add(node_pred.get(i));
-			System.out.println("added" + node_pred.get(i).getText());
 		}
 		
 		c = new GridBagConstraints();

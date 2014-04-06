@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
 			node_list.add(testNode);
 		
 			MainFrame Creator_UI = new MainFrame("Test UI");
-			Creator_UI.setSize(800,600);
+			Creator_UI.setSize(1024,768);
 			Creator_UI.setResizable(false);
 			Creator_UI.setVisible(true);
 			Creator_UI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
