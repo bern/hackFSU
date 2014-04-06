@@ -1,6 +1,8 @@
 package creator.end.api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NodeIndex {
@@ -27,6 +29,10 @@ public class NodeIndex {
 	
 	public void removeFilename(int id){
 		idsToFilename.remove(idsToFilename);
+	}
+	
+	public List<Integer> getAllIds(){
+		return new ArrayList<Integer>(idsToFilename.keySet());
 	}
 
 }
