@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<NodeIndex>
-	<directory>Resources</directory>
-	<Node>
-		<id>182</id>
-		<filename>DijkstrasAlgorithm.xml</filename>
-	</Node>
-	<Node>
-		<id>987</id>
-		<filename>DirectedMap.xml</filename>
-	</Node>
-	<Node>
-		<id>4432</id>
-		<filename>PathOptimization.xml</filename>
-	</Node>
-</NodeIndex>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><NodeIndex><directory>Resources</directory><Node><id>987</id><filename>DirectedMap.xml</filename></Node><Node><id>4432</id><filename>PathOptimization.xml</filename></Node><Node><id>182</id><filename>Dijkstrasalgorithm.xml</filename></Node></NodeIndex>

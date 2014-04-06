@@ -34,5 +34,9 @@ public class NodeIndex {
 	public List<Integer> getAllIds(){
 		return new ArrayList<Integer>(idsToFilename.keySet());
 	}
+	
+	public void clearFilenames(){
+		this.idsToFilename = new HashMap<Integer,String>();
+	}
 
 }

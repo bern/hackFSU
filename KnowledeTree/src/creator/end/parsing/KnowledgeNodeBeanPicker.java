@@ -12,6 +12,11 @@ import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -33,6 +38,7 @@ public class KnowledgeNodeBeanPicker {
 	public static final String ELNAME_DEPENDENCYID = "id";
 	public static final String ELNAME_DESCRIPTION = "description";
 	public static final String ELNAME_BODY = "body";
+	public static final String ELNAME_ROOTNAME = "KnowledgeNode";
 
 	String dataDirectory;
 	NodeIndex nodeIndex = null;
@@ -210,7 +216,124 @@ public class KnowledgeNodeBeanPicker {
 	///////////////////////////////////////////////////
 	
 	public void writeKnowledgeNodesToDatabase(List<KnowledgeNode> allKnowledgeNodes){
+		validateNodeIndexExists();
+		//make sure we don't write anybody out twice.
 		Set<KnowledgeNode> uniqueKns = new HashSet<KnowledgeNode>(allKnowledgeNodes);
 		
+		//create node index file.
+		nodeIndex.clearFilenames();
+		for(KnowledgeNode kn : uniqueKns){
+			String filename = kn.getName();
+			filename = filename.replaceAll("[^A-Za-z0-9]", "");
+			filename+=".xml";
+			nodeIndex.addFilename(kn.getId(), filename);
+		
+			//now go through and actually write the kns
+			writeKnowledgeNode(kn,filename);
+		}
+		NodeIndexBeanPicker niBeanPicker = new NodeIndexBeanPicker();
+		niBeanPicker.setDataDirectory(dataDirectory+"/nodeIndex.xml");
+		nodeIndex.setURL(dataDirectory);
+		niBeanPicker.writeNodeIndex(nodeIndex);
+		
+		
 	}
+
+	/**
+	 * Takes in a knowledge node and writes it to a file
+	 * with the given name.
+	 * @param kn
+	 */
+	private void writeKnowledgeNode(KnowledgeNode toWrite,String filename) {
+				
+		try{			
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			
+			// root elements
+			Document doc = docBuilder.newDocument();
+			Element rootElement = doc.createElement(ELNAME_ROOTNAME);
+			doc.appendChild(rootElement);
+			
+			addNameElement(toWrite,rootElement,doc);
+			addIdElement(toWrite,rootElement,doc);
+			addBodyElement(toWrite,rootElement,doc);
+			addDependenciesElement(toWrite,rootElement,doc);
+			
+			
+			//Write out the document
+			// write the content into xml file
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File(dataDirectory+"/"+filename));
+	 
+			transformer.transform(source, result);
+			
+		} catch (ParserConfigurationException e) {
+			// TODO write log
+			e.printStackTrace();
+			throw new RuntimeException("Could not write NodeIndex file",e);
+		} catch (TransformerException e) {
+			// TODO write log
+			e.printStackTrace();
+			throw new RuntimeException("Could not write NodeIndex file",e);
+		}
+	}
+
+	
+
+	private void addDependenciesElement(KnowledgeNode toWrite,
+			Element rootElement, Document doc) {
+		Node dependenciesNode = doc.createElement(ELNAME_DEPENDENCIES);
+		rootElement.appendChild(dependenciesNode);
+		
+		List<KnowledgeNode> dependencies = toWrite.getDependencies();
+		for(KnowledgeNode knDep : dependencies){
+			String description = toWrite.getDescription(knDep);
+			addDependencyElement(knDep,description,dependenciesNode,doc);
+		}
+	}
+
+	private void addDependencyElement(KnowledgeNode knDep,String description,
+			Node dependenciesNode, Document doc) {
+		Node depNode = doc.createElement(ELNAME_DEPENDENCY);
+		dependenciesNode.appendChild(depNode);
+		
+		Node idNode = doc.createElement(ELNAME_DEPENDENCYID);
+		depNode.appendChild(idNode);
+		String sId = (new Integer(knDep.getId())).toString();
+		idNode.appendChild(doc.createTextNode(sId));
+		
+		if(description!=null){			
+			Node descriptionNode = doc.createElement(ELNAME_DESCRIPTION);
+			depNode.appendChild(descriptionNode);
+			descriptionNode.appendChild(doc.createTextNode(description));
+		}
+	}
+
+	private void addBodyElement(KnowledgeNode toWrite, Element rootElement,
+			Document doc) {
+		Node bodyNode = doc.createElement(ELNAME_BODY);
+		rootElement.appendChild(bodyNode);
+		bodyNode.appendChild(doc.createTextNode(toWrite.getBody()));
+		
+	}
+
+	private void addIdElement(KnowledgeNode toWrite, Element rootElement,
+			Document doc) {
+		Node idNode = doc.createElement(ELNAME_ID);
+		rootElement.appendChild(idNode);
+		String sId = (new Integer(toWrite.getId())).toString();
+		idNode.appendChild(doc.createTextNode(sId));
+	}
+
+	private void addNameElement(KnowledgeNode toWrite, Element rootElement,
+			Document doc) {
+		Node nameNode = doc.createElement(ELNAME_NAME);
+		rootElement.appendChild(nameNode);
+		nameNode.appendChild(doc.createTextNode(toWrite.getName()));		
+	}
+	
+	
 }
