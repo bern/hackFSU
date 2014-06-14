@@ -12,8 +12,6 @@ import java.util.Set;
 /**
  * Class for containing a "piece of knowledge". Contains dependencies and
  * tutorial for this piece of knowledge.
- * @author coriakin
- *
  */
 public class KnowledgeNode {
 
